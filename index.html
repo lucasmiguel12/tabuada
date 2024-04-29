@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Tabuada</title>
+    <style>
+      body {
+        background-color: lightcyan;
+        font-weight: bold;
+      }
+      #container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        width: 300px;
+        min-height: 90px;
+        background-color: lightcoral;
+        margin: 180px auto;
+        padding: 10px 0;
+        border-radius: 30px;
+      }
+      button {
+        width: 100px;
+        height: 25px;
+        font-weight: bold;
+        background-color: aquamarine;
+        border: none;
+        border-radius: 10px;
+        cursor: pointer;
+        color: black;
+      }
+      button:hover {
+        background-color: rgb(166, 245, 219);
+      }
+      .tamanho {
+        display: flex;
+        justify-content: center;
+        text-align: center;
+        width: 200px;
+        padding-bottom: 20px;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="container">
+      <button id="inserir">Inserir</button>
+      <button id="calcular">Calcular</button>
+      <button id="limpar">Limpar</button>
+    </div>
+    <script>
+      const inserir = document.querySelector("#inserir");
+      const calcular = document.querySelector("#calcular");
+      const limpar = document.querySelector("#limpar");
+
+      inserir.addEventListener("click", numbers);
+      function numbers() {
+        const numCalc = document.createElement("input");
+        const numQnt = document.createElement("input");
+        const pCalc = document.createElement("p");
+        pCalc.textContent = "Valor Calcular:";
+        const pQnt = document.createElement("p");
+        pQnt.textContent = "Número Vezes:";
+        const result = document.createElement("div");
+        result.className = "tamanho";
+        const tamanho = result.querySelector(".tamanho");
+        inserir.before(pCalc);
+        inserir.before(numCalc);
+        inserir.before(pQnt);
+        inserir.before(numQnt);
+        limpar.after(result);
+        inserir.disabled = true;
+        numCalc.focus();
+        numCalc.addEventListener("keydown", mudar);
+        function mudar(event) {
+          if (event.keyCode === 13) {
+            numQnt.focus()
+          } 
+      }
+        numQnt.addEventListener("keydown", mudarR);
+        function mudarR(event) {
+          if (event.keyCode === 13) {
+            mostrarTabuada()
+          }
+        }
+        document.addEventListener("keydown", teste)
+        function teste(e){
+          if(event.keyCode === 27){
+            clear()
+          }
+        }      
+        function mostrarTabuada() {
+          if (numCalc.value === "" || numQnt.value === "") {
+            return (result.textContent =
+              "É preciso que os dois campos sejam preenchidos!");
+          } else {
+            result.innerHTML = "";
+            for (let i = 1; i <= numQnt.value; i++) {
+              let val = `<br> ${numCalc.value} x ${i} = ${numCalc.value * i}`;
+              result.innerHTML += val;
+            }
+          }
+        }
+        calcular.addEventListener("click", mostrarTabuada);
+        limpar.addEventListener("click", clear);
+        function clear() {
+          result.innerHTML = "";
+          numCalc.value = "";
+          numQnt.value = "";
+          numCalc.focus();
+        }
+      }
+    </script>
+  </body>
+</html>
